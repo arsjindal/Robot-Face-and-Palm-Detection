@@ -1,4 +1,4 @@
-'''Written by: Aayush Jindal'''
+ #!/usr/bin/env python
 import argparse
 import platform
 import subprocess

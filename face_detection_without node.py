@@ -1,4 +1,4 @@
- #!/usr/bin/env python
+'''Written by: Aayush Jindal'''
 import argparse
 import platform
 import subprocess
@@ -9,10 +9,8 @@ import cv2
 import numpy as np
 import sys
 import time
-import rospy
-from geometry_msgs.msg import Vector3
 
-# Defining variable for the msg Vector3 - sl (sleep indicator)/ ht (head tilt indicator) / sr (surprise indicator)
+
 
 # Function to read labels from text files.
 def ReadLabelFile(file_path):
@@ -29,7 +27,7 @@ if __name__ == '__main__':
 	# Selecting model
 	engine = DetectionEngine('mobilenet_ssd_v2_face_quant_postprocess_edgetpu.tflite')
 	labels = None
-	eye_cascade= cv2.CascadeClassifier('haarcascade_eye.xml')
+	eye_cascade= cv2.CascadeClassifier('/home/aayushj/Downloads/Eye_cascade/haarcascade_eye.xml')
 	# Blob Detector
 	detector_params= cv2.SimpleBlobDetector_Params()
 	detector_params.filterByArea= True
@@ -48,7 +46,6 @@ if __name__ == '__main__':
 		# This calculates the bounding boxes
 		ans = engine.DetectWithImage(img2, threshold=0.05, keep_aspect_ratio= True, relative_coord= False, top_k=10)
 		current_time= time.time()
-		message= None
 		if ans:
 			boxes_detected=[]
 			areas=[]
@@ -102,41 +99,30 @@ if __name__ == '__main__':
 				b= right_eye_position
 				if (abs(a-b)<10):
 					print("Face is straight")
-					ht = 0
-
 				elif ((a-b)<-10):
 					print("Face is tilted towards left")
-					ht = 1
 				else:
 					print("face is tilted towards right")
-					ht = 2
 				
 		else:
 			print('No object detected')
-			ht= 0
 		# condition for quori to go to sleep
 		if ((current_time- detection_time)> 20):
 			print('Going to Sleep')
-			sl = 1
-
 		else:
 			print('I am active')
-			sl = 0 
 		# condition for finding if somebody is approaching fast enough
-		if (len(Area)==4):
-			speed= (Area[3]-Area[0])
+		if (len(Y)==4):
+			speed= (Y[3]-Y[0])
 			print(speed)
 			print()
 			if (abs(speed)>20):
 				print("Object is approaching fast")
-				sr = 1
 			else:
 				print("object is slow")
-				sr = 0
-		elif (len(Area)>4):
-			Area= []
+		elif (len(Y)>4):
+			Y= []
 			Time=[]
-		message= np.vstack((sl,ht,sr))
 
 		cv2.imshow('Video',frame)
 

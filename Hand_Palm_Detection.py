@@ -10,7 +10,7 @@ import numpy as np
 import os
 import imutils
 
-#os.chdir("D:\Sign Language\Opencv-master\haarcascade")
+os.chdir("Hand & Face Detection with Haar_Cascades")
 cap = cv2.VideoCapture(0)
 
 hand_cascade = cv2.CascadeClassifier('closed_frontal_palm.xml')

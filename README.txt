@@ -24,3 +24,7 @@ Node name: ros_node_face.py*
 The note imports the final "message" file and publishes the array as a Vector3 msg file on the topic Topic1* with a 10Hz* rate.
 
 Please edit names of files which are marked * to integrate into the structure.
+
+#######################################################################################################
+THIS IS A TRIAL MESSAGE TO CHECK GIT COMMIT IN NEW BRANCH
+#######################################################################################################
